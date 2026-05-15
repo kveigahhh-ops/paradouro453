@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paradouro 453 - A Melhor Hamburgueria</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Paleta de cores */
+        :root {
+            --primary-red: #D32F2F;
+            --red-dark: #B71C1C;
+            --white: #FFFFFF;
+            --black: #000000;
+            --gray-light: #F5F5F5;
+            --gray: #666;
+        }
+
+        /* Header e Menu Fixo */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .mobile-menu {
+            display: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23D32F2F" width="1200" height="800"/><text x="600" y="400" font-family="Arial" font-size="60" fill="white" text-anchor="middle">🍔 HAMBURGUER GOURMET</text></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(211, 47, 47, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(211, 47, 47, 0.6);
+            background: var(--red-dark);
+        }
+
+        /* Seções */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--black);
+        }
+
+        /* Vantagens */
+        .advantages {
+            background: var(--gray-light);
+            padding: 4rem 2rem;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .advantage-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .advantage-icon {
+            font-size: 3rem;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        /* Cardápio */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-category {
+            margin-bottom: 4rem;
+        }
+
+        .menu-category h3 {
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .menu-item {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .menu-item h4 {
+            font-size: 1.5rem;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        .btn-add {
+            width: 100%;
+            background: var(--primary-red);
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background: var(--red-dark);
+            transform: scale(1.02);
+        }
+
+        /* Carrinho */
+        .cart {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 400px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .cart.active {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .cart-items {
+            padding: 1rem 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .cart-total {
+            padding: 2rem;
+            border-top: 2px solid var(--primary-red);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Formulário de Pedido */
+        .order-form {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        /* Sobre e Contato */
+        .about-content, .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* WhatsApp Botão Flutuante */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Rodapé */
+        footer {
+            background: var(--black);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .social-links {
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-red);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart {
+                width: 100%;
+                right: -100%;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#home" class="logo">🍔 Paradouro 453</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Cardápio</a></li>
+                <li><a href="#order">Pedido</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+            <i class="fas fa-bars mobile-menu"></i>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <h1>Paradouro 453</h1>
+        <p>Sabor que vicia 🍔🔥</p>
+        <a href="#order" class="btn-primary">Fazer pedido agora</a>
+    </section>
+
+    <!-- Vantagens -->
+    <section id="vantagens" class="advantages">
+        <h2 class="animate">Por que escolher o Paradouro?</h2>
+        <div class="advantages-grid">
+            <div class="advantage-card animate">
+                <div class="advantage-icon"><i class="fas fa-shipping-fast"></i></div>
+                <h3>Entrega Rápida</h3>
+                <p>Seu pedido chega em até 30 minutos!</p>
+            </div>
+            <div class="advantage-card animate">
+                <div class="advantage-icon"><i class="fas fa-leaf"></i></div>
+                <h3>Ingredientes Frescos</h3>
+                <p>Sempre os melhores ingredientes do dia</p>
+            </div>
+            <div class="advantage-card animate">
+                <div class="advantage-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Pedido Fácil</h3>
+                <p>Peça direto pelo site em 2 minutos</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cardápio -->
+    <section id="menu">
+        <h2>Nosso Cardápio</h2>
+        
+        <div class="menu-category">
+            <h3>🍔 Hambúrgueres</h3>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <h4>X Burger</h4>
+                    <p>Carne suculenta, queijo, alface, tomate e molho especial</p>
+                    <div class="price">R$ 22,90</div>
+                    <button class="btn-add" onclick="addToCart('X Burger', 22.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>X Salada</h4>
+                    <p>Carne, queijo, muita alface, tomate e cenoura ralada</p>
+                    <div class="price">R$ 24,90</div>
+                    <button class="btn-add" onclick="addToCart('X Salada', 24.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>X Bacon</h4>
+                    <p>X Burger com bacon crocante e queijo extra</p>
+                    <div class="price">R$ 27,90</div>
+                    <button class="btn-add" onclick="addToCart('X Bacon', 27.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>X Tudo</h4>
+                    <p>O hambúrguer dos deuses: tudo que tem direitos!</p>
+                    <div class="price">R$ 32,90</div>
+                    <button class="btn-add" onclick="addToCart('X Tudo', 32.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>Hambúrguer Artesanal</h4>
+                    <p>Blend especial de carnes com molho caseiro</p>
+                    <div class="price">R$ 38,90</div>
+                    <button class="btn-add" onclick="addToCart('Hambúrguer Artesanal', 38.90)">Adicionar ao pedido</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h3>🍟 Porções</h3>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <h4>Batata Frita</h4>
+                    <p>Batata frita crocante e dourada</p>
+                    <div class="price">R$ 12,90</div>
+                    <button class="btn-add" onclick="addToCart('Batata Frita', 12.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>Batata Cheddar Bacon</h4>
+                    <p>Batata com cheddar derretido e bacon</p>
+                    <div class="price">R$ 22,90</div>
+                    <button class="btn-add" onclick="addToCart('Batata Cheddar Bacon', 22.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>Onion Rings</h4>
+                    <p>Anéis de cebola empanados e fritos</p>
+                    <div class="price">R$ 18,90</div>
+                    <button class="btn-add" onclick="addToCart('Onion Rings', 18.90)">Adicionar ao pedido</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h3>🥤 Bebidas</h3>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <h4>Refrigerante 350ml</h4>
+                    <p>Coca-Cola, Guaraná, Sprite</p>
+                    <div class="price">R$ 6,90</div>
+                    <button class="btn-add" onclick="addToCart('Refrigerante 350ml', 6.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>Sucos Naturais</h4>
+                    <p>Laranja, limão, maracujá (600ml)</p>
+                    <div class="price">R$ 9,90</div>
+                    <button class="btn-add" onclick="addToCart('Suco Natural', 9.90)">Adicionar ao pedido</button>
+                </div>
+                <div class="menu-item">
+                    <h4>Água 500ml</h4>
+                    <p>Água mineral sem gás</p>
+                    <div class="price">R$ 4,90</div>
+                    <button class="btn-add" onclick="addToCart('Água 500ml', 4.90)">Adicionar ao pedido</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrinho e Formulário -->
+    <section id="order">
+        <h2>Finalizar Pedido</h2>
+        <div class="order-form" id="orderForm">
+            <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" id="customerName" placeholder="Seu nome">
+            </div>
+            <div class="form-group">
+                <label>Endereço Completo</label>
+                <textarea id="address" rows="3" placeholder="Rua, número, bairro, cidade"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Telefone/WhatsApp</label>
+                <input type="tel" id="phone" placeholder="(11) 99999-9999">
+            </div>
+            <div class="form-group">
+                <label>Observações</label>
+                <textarea id="notes" rows="2" placeholder="Sem cebola, troco por X, etc..."></textarea>
+            </div>
+            <button class="btn-primary" style="width: 100%; font-size: 1.3rem;" onclick="sendOrder()">
+                <i class="fab fa-whatsapp"></i> Enviar Pedido pelo WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="about" class="about-content">
+        <h2>Sobre Nós</h2>
+        <p>Paradouro 453 é um negócio familiar com mais de 10 anos de tradição. Nossa paixão é criar hambúrgueres inesquecíveis com ingredientes frescos do dia. Focamos em qualidade, rapidez no atendimento e um sorriso no rosto de cada cliente.</p>
+        <p style="margin-top: 2rem; font-size: 1.2rem;">"Aqui o sabor é garantido!" 🍔</p>
+    </section>
+
+    <!-- Contato -->
+    <section id="contact">
+        <h2>Contato</h2>
+        <div class="contact-content">
+            <p><i class="fas fa-phone"></i> WhatsApp: <strong>(11) 99999-4534</strong></p>
+            <p><i class="fas fa-map-marker-alt"></i> Rua das Flores, 453 - Centro, São Paulo - SP</p>
+            <p><i class="fas fa-clock"></i> Seg-Sáb: 11h às 23h | Dom: 12h às 22h</p>
+            <div style="height: 300px; margin-top: 2rem; border-radius: 20px; overflow: hidden;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.123456789!2d-46.652123456789!3d-23.563456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9437e8b8c1d!2sS%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1699999999999" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="https://wa.me/5511999994534" class="btn-primary" style="margin-top: 2rem; display: inline-block;">
+                <i class="fab fa-whatsapp"></i> Chamar no WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Carrinho Lateral -->
+    <div class="cart" id="cart">
+        <div class="cart-header">
+            <h3>Seu Pedido</h3>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-total">
+            <div>Total: <span id="cartTotal">R$ 0,00</span></div>
+            <button class="btn-primary" onclick="scrollToOrder()" style="width: 100%; margin-top: 1rem;">Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/5511999994534" class="whatsapp-float" target="_blank" title="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Rodapé -->
+    <footer>
+        <h3>🍔 Paradouro 453</h3>
+        <p>O melhor hambúrguer da cidade!</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>&copy; 2024 Paradouro 453. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Carrinho de compras
+        let cart = [];
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateCart();
+            showNotification('Item adicionado ao carrinho!');
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price;
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <span>${item.name}</span>
+                    <div>
+                        <span>R$ ${item.price.toFixed(2)}</span>
+                        <button onclick="removeFromCart(${index})" style="background: #D32F2F; color: white; border: none; border-radius: 5px; padding: 5px 10px; margin-left: 10px;">Remover</button>
+                    </div>
+                `;
+                cartItems.appendChild(div);
+            });
+            
+            cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart() {
+            document.getElementById('cart').classList.toggle('active');
+        }
+
+        function scrollToOrder() {
+            document.getElementById('order').scrollIntoView({behavior: 'smooth'});
+            toggleCart();
+        }
+
+        function sendOrder() {
+            const name = document.getElementById('customerName').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+            const notes = document.getElementById('notes').value;
+            
+            if (cart.length === 0) {
+                alert('Adicione itens ao carrinho primeiro!');
+                return;
+            }
+            
+            if (!name || !address || !phone) {
+                alert('Preencha todos os campos obrigatórios!');
+                return;
+            }
+            
+            let message = `🍔 *NOVO PEDIDO - PARADOURO 453*\n\n`;
+            message += `👤 *Cliente:* ${name}\n`;
+            message += `📍 *Endereço:* ${address}\n`;
+            message += `📱 *Telefone:* ${phone}\n\n`;
+            message += `🍔 *ITENS DO PEDIDO:*\n`;
+            
+            cart.forEach(item => {
+                message += `• ${item.name} - R$ ${item.price.toFixed(2)}\n`;
+            });
+            
+            message += `\n💰 *TOTAL: R$ ${cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)}*\n`;
+            if (notes) message += `\n📝 *Observações:* ${notes}`;
+            
+            const whatsappNumber = '5511999994534';
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappURL, '_blank');
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; background: var(--primary-red); 
+                color: white; padding: 1rem 2rem; border-radius: 10px; 
+                z-index: 3000; transform: translateX(400px); transition: all 0.3s;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Smooth scroll para links de navegação
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0,0,0,0.98)';
+            } else {
+                header.style.background = 'rgba(0,0,0,0.95)';
+            }
+        });
+
+        // Animações ao scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        });
+
+        document.querySelectorAll('.advantage-card, .menu-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+  </html>
